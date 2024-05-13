@@ -1,0 +1,42 @@
+﻿@model Login_Credentials
+
+<head>
+    <link href="~/css/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row main-content bg-success text-center w-30">
+            <div class="col-md-4 text-center company__info">
+                <img id="sdf" style="border-radius:25%" src="~/lib/bootstrap/images/chatapp.png" />
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-12 login_form">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h2>Log In</h2>
+                    </div>
+                    <div class="row">
+                        @using (Html.BeginForm("SignIn_To_ChatRoom", "HOME", FormMethod.Post))
+                        {
+                            <div class="row">
+                                @Html.TextBoxFor(model => model.name, new { @class = "form__input", placeholder = "Username" })
+                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                @* @Validation.For("credits") *@
+                            </div>
+                            <div class="row">
+                                @Html.PasswordFor(model => model.password, new { @class = "form__input", placeholder = "Password" })
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="">
+                                <input type="submit" value="Submit" class="btn">
+                                <a class="btn" href="@Url.Action("Signup_To_ChatRoom", "home")">Sign Up</a>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
