@@ -32,13 +32,44 @@ namespace ChatRoomApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string query = $"insert into [ChatRoomApp].[dbo].[SignUp_Credential_Validation] (Name,Password ,Confirm_Password ) values('{cr.name}','{cr.password}','{cr.Confirm_password}') ";
-                DataTable dataTable = DbHelper.ExecuteQuery(query);
-                // Store username in session
-                HttpContext.Session.SetString("UserName", cr.name);
+                string escapedName = cr.name.Replace("'", "''");
+                string escapedPassword = cr.password.Replace("'", "''");
+                string escapedConfirmPassword = cr.Confirm_password.Replace("'", "''");
 
-                return RedirectToAction("SignIn_To_ChatRoom");
+                // Check if the username already exists in the database
+                string checkUsernameQuery = $"SELECT COUNT(*) FROM [ChatRoomApp].[dbo].[SignUp_Credential_Validation] WHERE Name = '{escapedName}'";
+                int existingUsernameCount = (int)DbHelper.ExecuteScalar(checkUsernameQuery);
+
+                // Check if the password has been used before
+                string checkPasswordQuery = $"SELECT COUNT(*) FROM [ChatRoomApp].[dbo].[SignUp_Credential_Validation] WHERE Password = '{escapedPassword}'";
+                int existingPasswordCount = (int)DbHelper.ExecuteScalar(checkPasswordQuery);
+
+                if (existingUsernameCount == 0 && existingPasswordCount == 0)
+                {
+                    // Username and password are unique, proceed with insertion
+                    // Construct the SQL query with case-sensitive comparison
+                    string insertQuery = $"INSERT INTO [ChatRoomApp].[dbo].[SignUp_Credential_Validation] (Name, Password, Confirm_Password) VALUES ('{escapedName}' COLLATE Latin1_General_CS_AS, '{escapedPassword}' COLLATE Latin1_General_CS_AS, '{escapedConfirmPassword}' COLLATE Latin1_General_CS_AS)";
+                    DbHelper.ExecuteNonQuery(insertQuery);
+
+                    // Store username in session
+                    HttpContext.Session.SetString("UserName", cr.name);
+
+                    return RedirectToAction("SignIn_To_ChatRoom");
+                }
+                else
+                {
+                    // Either username or password (or both) already exists, handle accordingly (e.g., display error message to user)
+                    if (existingUsernameCount > 0)
+                    {
+                        ModelState.AddModelError("", "Username is already taken. Please choose a different username.");
+                    }
+                    if (existingPasswordCount > 0)
+                    {
+                        ModelState.AddModelError("", "Password has been used before. Please choose a different password.");
+                    }
+                }
             }
+
             return View();
         }
         public IActionResult SignIn_To_ChatRoom()
@@ -62,7 +93,7 @@ namespace ChatRoomApp.Controllers
 
                     if (IsValidUser(model.name, model.password))
                     {
-                        string userName = model.name; // Get the username from the form
+                        
 
                         // using this to avoid unnessary redirections
                         HttpContext.Session.SetString("LoggedIn", "true");
@@ -91,7 +122,8 @@ namespace ChatRoomApp.Controllers
             string escapedName = name.Replace("'", "''");
             string escapedPassword = password.Replace("'", "''");
 
-            string query = $"SELECT * FROM SignUp_Credential_Validation WHERE Name = '{escapedName}' AND Password = '{escapedPassword}'";
+            string query = $"SELECT * FROM SignUp_Credential_Validation WHERE Name COLLATE Latin1_General_CS_AS = '{escapedName}' AND Password COLLATE Latin1_General_CS_AS = '{escapedPassword}'";
+
             DataTable dataTable = DbHelper.ExecuteQuery(query);
             if (dataTable.Rows.Count > 0)
             {
