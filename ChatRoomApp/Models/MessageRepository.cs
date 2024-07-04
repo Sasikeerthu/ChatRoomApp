@@ -8,18 +8,16 @@ namespace ChatRoomApp.Models
     {
         public void AddMessage(Message message)
         {
-            DbHelper.ExecuteNonQuery("INSERT INTO Messages (SenderName, Content, Timestamp) VALUES (@SenderName, @Content, @Timestamp)",
-     "@SenderName", message.SenderName,
-     "@Content", message.Content,
-     "@Timestamp", message.Timestamp);
+            DbHelper.ExecuteNonQuery("INSERT INTO Messages (SenderName,Content,Timestamp) VALUES (@SenderName, @Content, @Timestamp)",
+     "@SenderName", message.SenderName,"@Content", message.Content,"@Timestamp", message.Timestamp);
         }
-
-        public IEnumerable<Message> GetMessages()
- {
+        
+        public IEnumerable<Message> GetMessages(){
             var messages = new List<Message>();
             var query = "SELECT SenderName, Content, Timestamp FROM Messages";
             var dataTable = DbHelper.ExecuteQuery(query);
             foreach (DataRow row in dataTable.Rows)
+
             {
                 var message = new Message
                 {

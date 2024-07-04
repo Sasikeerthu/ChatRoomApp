@@ -29,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=SignUp_To_ChatRoom}/{id?}");
+    pattern: "{controller=Home}/{action=SignIn_To_ChatRoom}/{id?}");
 
 app.Run();

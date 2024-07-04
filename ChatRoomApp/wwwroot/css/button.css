@@ -6,17 +6,20 @@
     border: none;
     outline: none;
     color: rgb(255, 255, 255);
-    background: #111;
+    
     cursor: pointer;
     font-size: 18px;
     position: relative;
     z-index: 0;
-    border-radius: 10px;
+    
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
 }
 
+.rad{
+    color: rgb(255, 255, 255);
+}
     .button-85:before {
         content: "";
         background: linear-gradient( 45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000 );
@@ -31,7 +34,7 @@
         height: calc(100% + 4px);
         animation: glowing-button-85 20s linear infinite;
         transition: opacity 0.3s ease-in-out;
-        border-radius: 10px;
+        border-radius: 100px;
     }
 
 @keyframes glowing-button-85 {
@@ -69,7 +72,7 @@
     background: #222;
     left: 0;
     top: 0;
-    border-radius: 10px;
+    border-radius: 100px;
 }
 
 .button-85:hover {
@@ -90,3 +93,88 @@
     touch-action: manipulation;
 }
 
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 20px;
+    width: 500px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+   
+}
+
+.card-body {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: white;
+    height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: black grey;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: white;
+}
+
+.button-85 {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+#messageList {
+    height: 300px; /* Adjust the height as needed */
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 18px;
+}
+/*.message {
+    text-align: left;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.input-message {
+    flex-grow: 1;
+    margin-right: 10px;
+}*/
+.message {
+    text-align: left;
+    margin-bottom: 12px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.input-message {
+    width: calc(100% - 50px);
+    display: inline-block;
+}
+
+    
+
+/*.button-85 {
+    display: inline-block;
+    margin-left: 5px;
+}*/

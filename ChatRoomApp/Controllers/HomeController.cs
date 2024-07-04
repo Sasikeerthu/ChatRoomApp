@@ -132,28 +132,8 @@ namespace ChatRoomApp.Controllers
             }
 
             return false;
-
+             
         }
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult ChatRoom()
-        {
-            if (HttpContext.Session.GetString("LoggedIn") == "true")
-            {
-                var messages = _messageRepository.GetMessages();
-                var userName = HttpContext.Session.GetString("UserName");
-                ViewBag.UserName = userName;
-            return View(messages);
-
-               
-            }
-            else
-            {
-                return RedirectToAction("SignIn_To_ChatRoom");
-            }
-        }
-
-
 
         [HttpPost]
         public IActionResult SendMessage(Message message)
@@ -167,7 +147,28 @@ namespace ChatRoomApp.Controllers
             }
             return RedirectToAction("ChatRoom");
         }
-    public IActionResult Privacy()
+
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult ChatRoom()
+        {
+            if (HttpContext.Session.GetString("LoggedIn") == "true")
+            {
+                var messages = _messageRepository.GetMessages();
+                var userName = HttpContext.Session.GetString("UserName");
+                ViewBag.UserName = userName;
+                return View(messages);
+
+            }
+            else
+            {
+                return RedirectToAction("SignIn_To_ChatRoom");
+            }
+        }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult Dummy()
         {
             return View();
         }

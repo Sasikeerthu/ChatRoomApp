@@ -7,7 +7,7 @@ namespace ChatRoomApp.Models
         public string name { get; set; } = string.Empty;
         public string password { get; set; } = string.Empty;
 
-        [Compare("password", ErrorMessage = "Password and Confirm Password do not match.")]
+        [Compare("password", ErrorMessage = "Password and Confirm Password does not match.")]
         public string Confirm_password { get; set; } = string.Empty;
     }
 }
